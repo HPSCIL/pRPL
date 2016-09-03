@@ -1,0 +1,87 @@
+PGM  =  pAspect
+
+#
+#  choose  a  compiler
+#
+CC  =  mpic++
+CC_DEP  =  c++
+
+#
+#  choose  DEP  =  -M  for  cc  and  -MM  for  gcc
+#
+#
+DEP  =  -M
+#DEP  =  -MM
+
+#
+#  specify  the  directory  for  pRPL
+#
+PRPL_INCLD  =  ./
+MPI_INCLD = /usr/local/include/
+
+GDAL_INCLD  =  /usr/local/include/
+#GDAL_INCLD = /Library/Frameworks/GDAL.framework/Versions/1.9/unix/include
+
+GDAL_LIB  =  /usr/local/lib/
+#GDAL_LIB = /Library/Frameworks/GDAL.framework/Versions/1.9/unix/lib
+MPI_LIB = /usr/local/lib/
+
+CPPFLAGS=  -O  -I./  -I$(GDAL_INCLD)  -I$(PRPL_INCLD) -I$(MPI_INCLD)  
+
+CPPLIBS  =  -L$(GDAL_LIB)  -L$(MPI_LIB) -lgdal -ltiff
+
+SRCS_W_HDRS  = pgtiol-dataset.cpp\
+	       pgtiol-gTiffMetaData.cpp\
+               pgtiol-gTiffData.cpp \
+	       pgtiol-gTiffManager.cpp \
+               prpl-basicTypes.cpp \
+               prpl-neighborhood.cpp  \
+               prpl-cellspaceInfo.cpp \
+               prpl-cellspaceGeoinfo.cpp  \
+               prpl-cellspace.cpp  \
+               prpl-cellStream.cpp \
+               prpl-subCellspaceInfo.cpp  \
+               prpl-subCellspace.cpp  \
+               prpl-layer.cpp  \
+               prpl-transition.cpp  \
+               prpl-smplDcmp.cpp \
+               prpl-ownershipMap.cpp \
+               prpl-exchangeMap.cpp \
+               prpl-process.cpp \
+               prpl-transferInfo.cpp \
+               prpl-dataManager.cpp  \
+               aspectTrans.cpp \
+
+SRCS_WO_HDRS  =  pAspect.cpp
+
+SRCS  =  ${SRCS_W_HDRS}  ${SRCS_WO_HDRS}
+
+HDRS  =  ${SRCS_W_HDRS:.cpp=.h}
+OBJS  =  ${SRCS:.cpp=.o}
+DEPS  =  ${SRCS:.cpp=.d}
+
+$(PGM)    :   $(OBJS)
+	$(CC)   $(CPPFLAGS)   $(OBJS)   -o    $(PGM)    $(CPPLIBS)
+  
+include  Makefile.inc
+
+depend  :  $(SRCS)  $(HDRS)
+	$(CC_DEP)  $(DEP)  $(CPPFLAGS)  $(SRCS)  >  Makefile.inc
+
+clean  :
+	-rm  *.o
+clean_all  :
+	-rm  *.o  $(PGM)
+
+#include  $(DEPS)
+
+
+#.SUFFIXES  :  .o  .c  .d
+
+#%.d:  %.c
+#       $(SHELL)  -ec  '$(CC)  -MM  $(CPPFLAGS)  $<  \
+#       |  sed  '\''s/$*\.o/&  $@/g'\''  >  $@'
+#c.d:
+#       $(SHELL)  -ec  '$(CC)  -MM  $(CPPFLAGS)  $<  \
+#       |  sed  '\''s/$*\.o/&  $@/g'\''  >  $@'
+
