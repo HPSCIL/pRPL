@@ -25,7 +25,10 @@ mpirun -np \<num_proc\> pAspect \<workspace\> \<input-demFilename\> \<num-row-su
 <b>2.2 Example:</b><br>
 mpirun -np 8 ./pAspect ./ nd_dem.tif 8 1 0 5 0 <br>
 
-
+<b>3 To Cite in Publications:</b><br>
+- Miao, J.; Guan, Q.*; Hu, S. 2017. pRPL + pGTIOL: The marriage of a parallel processing library and a parallel I/O library for big raster data. Environmental Modelling and Software, 96: 347-360
+- Guan, Q.; Zeng, W.; Gong, J.; and Yun, S. 2014. pRPL 2.0: improving the parallel raster processing library. Transactions in GIS, 18(S1): 25-52
+- Guan, Q. and Clarke, K. C. 2010. A general-purpose parallel raster processing programming library test application using a geographic cellular automata model. International Journal of Geographical Information Science, 24(5): 695-722
 
 
 
